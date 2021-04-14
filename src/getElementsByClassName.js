@@ -6,32 +6,20 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className) {
   var elementArray = [];
-  var docBody = document.childNodes[1].childNodes[2];
-  if (docBody.classList.contains(className)) {
-    elementArray.push(docBody);
-  }
+  var docBody = document.body;
 
-  var docChildren = docBody.childNodes;
-  var innerFunction = function(list) {
-    console.log('before loop', elementArray);
-    for (var i = 0; i < list.length; i++) {
-      if (!list[i].hasChildNodes()) {
-        var eleClassList = list[i].classList;
-        if (eleClassList !== undefined) {
-          if (eleClassList.contains(className)) {
-            elementArray.push(list[i]);
-            console.log('inside', elementArray);
-            return;
-          }
-        }
-      } else if (list[i].hasChildNodes()) {
-        innerFunction(list[i]);
+  var innerFunction = function (list) {
+    if (list.classList && list.classList.contains(className)) {
+      elementArray.push(list);
+    }
+    if (list.hasChildNodes()) {
+      var docChild = list.childNodes;
+      for (var i = 0; i < docChild.length; i++) {
+        innerFunction(docChild[i]);
       }
     }
   };
-  innerFunction(docChildren);
-
-  console.log('outside', elementArray);
+  innerFunction(docBody);
 
   return elementArray;
 };
