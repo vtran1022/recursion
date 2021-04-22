@@ -63,3 +63,5 @@ var parseObject = function() {
   // something
 };
 
+// if more than 2 \\ then delete rest
+// if less than 1 \ then delete
